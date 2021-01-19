@@ -2,37 +2,46 @@ package intervals;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//https://leetcode.com/problems/interval-list-intersections/
 public class IntervalListIntersections {
 
 
     public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
-        List<int[]> result = new ArrayList<>();
+        int firstLen= firstList.length;
+        int secondLen= secondList.length;
+        List<int[]> vals= new ArrayList<>();
+        int first=0;
+        int second=0;
+        while(first<firstLen && second<secondLen){
+            int firstStart=firstList[first][0];
+            int firstEnd=firstList[first][1];
 
-        int i = 0, j = 0;
-        while ( i < firstList.length && j < secondList.length) {
-            int[] first = firstList[i];
-            int[] second = secondList[j];
+            int secondStart=secondList[second][0];
+            int secondEnd=secondList[second][1];
 
-            int start = Math.max(first[0], second[0]);
-            int end = Math.min(first[1], second[1]);
+            if(firstStart<=secondStart && secondStart<=firstEnd ||
+                    secondStart<=firstStart && firstStart<=secondEnd
+            ){
+                vals.add(new int[]{
+                        Integer.max(firstStart,secondStart ),
+                        Integer.min(firstEnd,secondEnd )
 
-            if (start <= end) {
-                result.add(new int[] {start, end});
+                });
+
             }
-            if (first[1] < second[1]) {
-                i++;
-            } else {
-                j++;
+
+            if(firstEnd<secondEnd ){
+                first++;
+            }else{
+                second++;
             }
+        }
+        int [][] intervalIntersection = new int[vals.size()][2];
+        for(int i=0; i<vals.size();i++){
+            intervalIntersection[i]= vals.get(i);
 
         }
 
-        int [][]ansRes= new int[result.size()][2];
-        for(int k=0;k<result.size();k++){
-            ansRes[k]=result.get(k);
-        }
-        return ansRes;
-
+        return intervalIntersection;
     }
 }
