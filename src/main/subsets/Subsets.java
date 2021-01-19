@@ -1,8 +1,8 @@
 package subsets;
 
 import java.util.*;
-78. Subsets
-        Medium
+/*78. Subsets
+        Medium*/
 public class Subsets {
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
