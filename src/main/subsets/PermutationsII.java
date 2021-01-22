@@ -5,8 +5,9 @@ import java.util.*;
 //47. Permutations II
 public class PermutationsII {
     //Gobal Variable for Way 1 using recussion
-/*Set<List<Integer>> vals= new HashSet<>();
-    int visited[]=null*/
+    Set<List<Integer>> vals = new HashSet<>();
+    int visited[] = null;
+
     public List<List<Integer>> permuteUnique(int[] nums) {
        /*
        Way 1 Recurssion
