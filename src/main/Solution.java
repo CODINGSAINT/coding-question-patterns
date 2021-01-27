@@ -5,69 +5,71 @@ public class Solution
     public static void main(String[] args) {
 
         Solution solution= new Solution();
-
-       // howMany("How many eggs are in a half-dozen 13?");
-        //howMany("He is a good programmer, he won 865 comp, but sometimes he dont. What do you think? All test case should pass. Done-done?");
-        //howMany("jds dsaf lkdf kdsa fkldsf, adsbf ldka ads? asd bfdal ds bf[l. akf dhj ds 878  dwa WE DE 7475 dsfh ds  RAMU 748 dj.");
-        // searchTriplets(new int[]{-1, 4, 2, 1, 3},5);
-
-        //searchTriplets(new int[]{-1, 0, 2, 3},3);
-   //   solution.sortedSquares(new int[]{9,4,2,10,7,8,8,1,9}));
-
-    //perfectSubstring("1102021222",2);
-        //System.out.println(solution.totalMoney(1));
-        System.out.println(solution.maximumGain("cdbcbbaaabab", 4,5));
-        System.out.println(solution.maximumGain("aabbaaxybbaabb", 5,4));
-
-    }
-
-
-    public int maximumGain(String s, int x, int y) {
-        this.s=s;
-        StringBuilder result = new StringBuilder();
-        this.s = s;
-        if (x > y)
-            return calculate('a', 'b') * x + calculate('b', 'a') * y;
-        return calculate('b', 'a') * y + calculate('a', 'b') * x;
-
-
+        System.out.println(solution.minimumTeachings(2,new
+                        int[][]{{1},{2},{1,2}} ,
+                new int[][]{{1,2},{1,3},{2,3}}));/*
+        System.out.println(solution.minimumTeachings(3,new
+                int[][]{{2},{1,3},{1,2},{3}} ,
+                new int[][]{{1,4},{1,2},{3,4},{2,3}}));*/
+        //System.out.println(solution.largestAltitude(new int[]{-4,-3,-2,-1,4,3,2}));
 
 
     }
-    public int calculate( char a, char b){
-        int total=0;
-        int val=0;
-        Stack<Character> stack= new Stack<>();
-        for (char current:s.toCharArray()) {
-            if(stack.size()>0  && stack.peek()==a && current==b ){
-                val++;
-                stack.pop();
-            }else{
-                stack.push(current);
+    //Input: n = 3, languages = [[2],[1,3],[1,2],[3]], friendships = [[1,4],[1,2],[3,4],[2,3]]
+    //Output: 2
+    //Explanation: Teach the third language to users 1 and 2, yielding two users to teach.
+    public int minimumTeachings(int n, int[][] languages, int[][] friendships) {
+        int knownLanguages[]=new int [n+1];
+        boolean seen[]=new boolean[languages.length];
+        for (int i = 0; i < friendships.length; i++) {
+            int friends[]= friendships[i];
+            int u=friends[0];
+            int v=friends[1];
+
+            int languagesU[]=languages[u-1];
+            int languagesV[]=languages[v-1];
+            //find the users who need to learn any language
+            Arrays.sort(languagesU);
+            Arrays.sort(languagesV);
+            int uStart=0;
+            int vStart=0;
+            boolean canSpeak=false;
+            while(uStart<languagesU.length && vStart<languagesV.length){
+                if(languagesU[uStart]==languagesV[vStart]){
+                    canSpeak=true;
+                    break;
+                }else if (languagesU[uStart]<languagesV[vStart]){
+                    uStart++;
+                }else{
+                    vStart++;
+                }
+            }
+            if(!canSpeak){
+                //Increment total all known languages
+                if(!seen[u]){
+                    for (int j = 0; j < languagesU.length; j++) {
+                        knownLanguages[languagesU[j]]++;
+                    }
+                    seen[u]=true;
+                }
+                if(!seen[v]) {
+                    for (int j = 0; j < languagesV.length; j++) {
+                        knownLanguages[languagesV[j]]++;
+                    }
+                    seen[v]=true;
+                }
+            }
 
             }
-            }
-        StringBuffer sb= new StringBuffer();
-        while(!stack.isEmpty()){
-            sb.append(stack.pop());
+        int max=0;
+        for (int i = 0; i < knownLanguages.length; i++) {
+            max=Integer.max(max,knownLanguages[i]);
         }
-        s=sb.reverse().toString();
-        return  val;
-    }
+        return max;
+        }
 
-    public int totalMoney(int n) {
 
-        int money=0;
-        int weekCounter=1;
-        int current=1;
-        for (int i = 1; i <= n; i++) {
-            money+=current++;
-            if(i%7==0){
-                current=++weekCounter;
-            }
-
-        } return money;
 
     }
-}
+
 
